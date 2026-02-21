@@ -1,8 +1,8 @@
 use winit::application::ApplicationHandler;
 use winit::event::{DeviceEvent, DeviceId, ElementState, RawKeyEvent, WindowEvent};
 use winit::event_loop::{ActiveEventLoop, ControlFlow, DeviceEvents, EventLoop};
-use winit::platform::scancode::PhysicalKeyExtScancode;
 use winit::window::WindowId;
+use winit::keyboard::PhysicalKey;
 
 struct Keylogger;
 
@@ -22,7 +22,9 @@ impl ApplicationHandler for Keylogger {
                 physical_key,
                 state,
             }) if state == ElementState::Pressed => {
-                println!("{}", physical_key.to_scancode().unwrap())
+                if let PhysicalKey::Code(key_name) = physical_key {
+                    println!("{:?}", key_name)
+                }
             }
             _ => {}
         }
